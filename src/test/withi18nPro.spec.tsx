@@ -1,3 +1,4 @@
+import React from 'react'
 import { act, fireEvent, render, waitFor } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import { PropsWithChildren } from 'react'
