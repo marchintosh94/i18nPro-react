@@ -1,11 +1,13 @@
-import { useState } from "react";
-import { i18nPro, ChangeLanguage } from "@marchintosh94/i18n-pro";
+import { useState } from 'react'
+import { i18nPro, ChangeLanguage } from '@marchintosh94/i18n-pro'
 
 export const useI18nPro = () => {
-  const [locale, setLocale] = useState<string>(i18nPro.defaultLocale);
+  const [locale, setLocale] = useState<string>(
+    i18nPro.locale ?? i18nPro.defaultLocale
+  )
 
   const updateLocaleState = (newLocale: string | undefined): string => {
-    if (newLocale && i18nPro.isLocaleAvailable(newLocale)){
+    if (newLocale && i18nPro.isLocaleAvailable(newLocale)) {
       i18nPro.setLocale(newLocale)
       setLocale(newLocale)
       return newLocale
@@ -14,7 +16,6 @@ export const useI18nPro = () => {
   }
 
   const switchLoadLanguage: ChangeLanguage = (...args) => {
-    
     return i18nPro.changeLanguage(...args).then(updateLocaleState)
   }
 
