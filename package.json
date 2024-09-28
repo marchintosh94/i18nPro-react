@@ -30,8 +30,10 @@
   ],
   "author": "marchintosh94 <marcobaratto@icloud.com> (https://marcobaratto.dev/)",
   "license": "MIT",
+  "dependencies": {
+    "@marchintosh94/i18n-pro": "^0.1.5"
+  },
   "peerDependencies": {
-    "@marchintosh94/i18n-pro": "0.1.4",
     "react": "16 - 18",
     "react-dom": "16 - 18"
   },
