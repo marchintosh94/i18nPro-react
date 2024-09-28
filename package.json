@@ -1,7 +1,7 @@
 {
   "name": "@marchintosh94/i18n-pro-react",
   "description": "I18nPro library implementation for React",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "type": "module",
