@@ -3,6 +3,7 @@ import type { JestConfigWithTsJest } from 'ts-jest'
 import { defaults as tsjPreset } from 'ts-jest/presets'
 
 const jestConfig: JestConfigWithTsJest = {
+  cache: false,
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
   collectCoverage: true,
   coverageProvider: 'v8',
