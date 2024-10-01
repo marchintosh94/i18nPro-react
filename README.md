@@ -114,6 +114,35 @@ The updated locale, or an empty string if the locale was not updated.
 
 The HOC returns a new component that renders the `WrappedComponent` with the additional `i18nPro` props. The returned component accepts all the props of the `WrappedComponent`, except for the props provided by the `useI18nPro` hook.
 
+### I18nProProvider
+
+`I18nProProvider` is a context provider component that supplies `i18nPro` functionality to its child components. It uses the `useI18nPro` hook to provide internationalization (i18n) capabilities to the components within its context.
+
+#### Parameters
+
+- `children`: The child components that will have access to the `i18nPro` context.
+
+#### Return Value
+
+The `I18nProProvider` returns a context provider that wraps its children with the `i18nPro` context. The wrapped children will have access to the `i18nPro` context values, such as `locale`, `switchLoadLanguage`, `t`, and `updateExisitngLocale`.
+
+### useI18nProContext
+
+`useI18nProContext` is a custom hook that provides access to the `i18nPro` context. It must be used within a component that is a descendant of the `i18nProProvider`.
+
+#### Return Value
+
+The hook returns the `i18nPro` context values, including:
+
+- `locale`: The current locale.
+- `switchLoadLanguage`: A function to switch the current language.
+- `t`: A function to translate text.
+- `updateExisitngLocale`: A function to update the existing locale.
+
+#### Error Handling
+
+If `useI18nProContext` is used outside of an `i18nProProvider`, it will throw an error with the message: "useI18nProContext must be used within an I18nProProvider".
+
 ## License
 
 This project is licensed under the [MIT License](./LICENSE).
