@@ -14,11 +14,14 @@ I18nPro react is a React helper that provides functionalities for internationali
 ## 📄 Table of Contents
 
 1. [Installation](#installation)
-2. [Configuration](#configuration)
-3. [i18nPro](#i18npro)
-4. [Usage](#usage)
+2. [i18nPro](#i18npro)
+3. [Usage](#usage)
+    - [i18nProProvider & i18nProContext](#i18nproprovider--i18nprocontext)
+        - [i18nProProvider Props](#i18nproprovider-props)
+        - [Example](#example)
+        - [Using the `useI18nProContext` context hook](#using-the-usei18nprocontext-context-hook)
     - [useI18nPro](#usei18npro)
-    - [withI18nPro Higher-Order Component](#withi18npro-higher-order-component)
+    - [withI18nPro Higher-Order Component (WIP)](#withi18npro-higher-order-component-work-in-progress)
 1. [License](#license)
 
 ## Installation
@@ -28,21 +31,6 @@ npm install @marchintosh94/i18n-pro-react
 # or
 yarn add @marchintosh94/i18n-pro-react
 ```
-## Configuration
-
-- `defaultLocale` (string): The default language to use if no language is specified.
-
-Import the i18nPro module and set your desired configuration in the entry point of your application:
-
-```typescript
-// src/index.ts
-
-import { i18nPro } from '@marchintosh94/i18n-pro-react'
-
-i18nPro.defaultLocale = 'en-US'
-
-//... other
-```
 
 ## <img src="./assets/ts.png" width="16"/> i18nPro
 
@@ -51,6 +39,57 @@ Read more about core functionalities and how to use it
 ### 🔗[I18nPro](https://github.com/marchintosh94/i18nPro.git)
 
 ## Usage
+
+### i18nProProvider & i18nProContext
+
+`i18nProProvider` is a React component that provides the `i18nPro` instance to the rest of the application using the React Context API. It should be placed at the root of the component tree to ensure that all components have access to the `i18nPro` functionalities. 
+
+`i18nProContext` is the React Context object that holds the `i18nPro` instance. It is used by the `useI18nPro` hook to access the `i18nPro` instance.
+
+#### i18nProProvider Props
+
+- `initialSetup`: The initial setup object for the `i18nPro` instance. This object should contain the following properties:
+    - `locale`: The default locale to use.
+    - `path`: The url to get translations or public path to the file containing the translation files. If not provided, you have to provide the `messages` object.
+    - `messages`: An object containing the translation messages for the default locale. If not provided, you have to provide the `path`.
+
+#### Example
+    
+```tsx
+import React from 'react';
+import { i18nProProvider } from '@marchintosh94/i18n-pro-react';
+
+const initialSetup = {
+    locale: 'en',
+    path: 'http://localhost:3000/locales/en.json',
+};
+
+ReactDOM.render(
+    <i18nProProvider initialSetup={initialSetup}>
+        <App />
+    </i18nProProvider>,
+    document.getElementById('root')
+);
+```
+##### Using the `useI18nProContext` context hook
+
+```tsx
+import React from 'react'
+import { useI18nProContext } from '@marchintosh94/i18n-pro-react'
+
+const MyComponent = () => {
+  const { locale, t, switchLoadLanguage } = useI18nProContext()
+
+  return (
+    <div>
+      <p>{t('hello')}</p>
+      <button onClick={() => switchLoadLanguage('fr', { hello: 'Bonjour' })}>
+        Switch to French
+      </button>
+    </div>
+  )
+}
+```
 
 ### useI18nPro
 
@@ -102,7 +141,7 @@ Updates the current locale if it's available in the `i18nPro` library.
 
 The updated locale, or an empty string if the locale was not updated.
 
-### withI18nPro Higher-Order Component
+### withI18nPro Higher-Order Component (Work in progress)
 
 `withI18nPro` is a higher-order component (HOC) that enhances a component with `i18nPro` functionality. It uses the `useI18nPro` hook to provide internationalization (i18n) capabilities to the wrapped component.
 
@@ -114,34 +153,6 @@ The updated locale, or an empty string if the locale was not updated.
 
 The HOC returns a new component that renders the `WrappedComponent` with the additional `i18nPro` props. The returned component accepts all the props of the `WrappedComponent`, except for the props provided by the `useI18nPro` hook.
 
-### I18nProProvider
-
-`I18nProProvider` is a context provider component that supplies `i18nPro` functionality to its child components. It uses the `useI18nPro` hook to provide internationalization (i18n) capabilities to the components within its context.
-
-#### Parameters
-
-- `children`: The child components that will have access to the `i18nPro` context.
-
-#### Return Value
-
-The `I18nProProvider` returns a context provider that wraps its children with the `i18nPro` context. The wrapped children will have access to the `i18nPro` context values, such as `locale`, `switchLoadLanguage`, `t`, and `updateExisitngLocale`.
-
-### useI18nProContext
-
-`useI18nProContext` is a custom hook that provides access to the `i18nPro` context. It must be used within a component that is a descendant of the `i18nProProvider`.
-
-#### Return Value
-
-The hook returns the `i18nPro` context values, including:
-
-- `locale`: The current locale.
-- `switchLoadLanguage`: A function to switch the current language.
-- `t`: A function to translate text.
-- `updateExisitngLocale`: A function to update the existing locale.
-
-#### Error Handling
-
-If `useI18nProContext` is used outside of an `i18nProProvider`, it will throw an error with the message: "useI18nProContext must be used within an I18nProProvider".
 
 ## License
 

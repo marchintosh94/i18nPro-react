@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import { i18nPro, ChangeLanguage } from '@marchintosh94/i18n-pro'
 
 /**
@@ -38,7 +38,13 @@ export const useI18nPro = () => {
    * @returns {Promise<string>} A promise that resolves to the updated locale.
    */
   const switchLoadLanguage: ChangeLanguage = (...args) => {
-    return i18nPro.changeLanguage(...args).then(updateLocaleState)
+    return i18nPro
+      .changeLanguage(...args)
+      .then(updateLocaleState)
+      .catch((error) => {
+        console.error(error)
+        return ''
+      })
   }
 
   /**
@@ -48,9 +54,12 @@ export const useI18nPro = () => {
    * @param {...any} args - The arguments to pass to the i18nPro.t function.
    * @returns {string} The translated string.
    */
-  const t: typeof i18nPro.t = (value: string, ...args) => {
-    return i18nPro.t(value, ...args)
-  }
+  const t: typeof i18nPro.t = useCallback(
+    (value: string, ...args) => {
+      return i18nPro.t(value, ...args)
+    },
+    [locale]
+  )
 
   /**
    * Updates the current locale if it's available in the i18nPro library.
